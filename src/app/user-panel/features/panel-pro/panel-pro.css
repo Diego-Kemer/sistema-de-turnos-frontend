@@ -22,7 +22,9 @@ nav .nav-title{
     font-size: 22px;
     font-weight: 500;
     display: flex;
+    padding: 10px 0px;
     padding-left: 20px;
+    margin-top: 10px;
     align-items: center;
     background: #fefeff27;
 }

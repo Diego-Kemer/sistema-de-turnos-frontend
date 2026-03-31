@@ -39,7 +39,6 @@ export class PanelPro implements OnInit{
       tap(res=>{
         this.empresaStorage.setEmpresa(res.empresa)
         this.userStorage.setUser(res.user)
-        console.log(res.empresa)
       }),
       switchMap(res=> this.turnosData.getTurns(res.empresa._id)))
       .subscribe(turnos=>{
@@ -50,6 +49,7 @@ export class PanelPro implements OnInit{
   }
   logout() {
     this.storageServ.removeToken()
+    this.empresaStorage.clear();
     this.router.navigate(['/auth']);
   }
 

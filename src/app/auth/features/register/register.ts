@@ -1,13 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Auth } from '../../data-access/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLinkWithHref } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ɵInternalFormsSharedModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthStorage } from '../../data-access/auth-storage';
 import { DataStatic } from '../../data-access/data-static';
 
 @Component({
   selector: 'app-register',
-  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule],
+  imports: [ɵInternalFormsSharedModule, ReactiveFormsModule, RouterLinkWithHref],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
