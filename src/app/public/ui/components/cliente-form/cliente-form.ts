@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, effect, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, EventEmitter, inject, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
 import { EmpresaPublic } from '../../../data-access/empresa-public';
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './cliente-form.css',
 })
 export class ClienteForm implements OnInit{
+  @ViewChild('inputNombre') inputNombre!: ElementRef;
   @Input() empresaId!: string;
   
   @Output() turnoCreado = new EventEmitter<any>();
@@ -78,4 +79,16 @@ export class ClienteForm implements OnInit{
     });
   }
 
+  submitForm() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.crearTurno();
+  }
+
+  focusFirstInput() {
+    this.inputNombre?.nativeElement.focus();
+  }
 }

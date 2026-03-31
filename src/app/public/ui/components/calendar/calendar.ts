@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, inject, Input, Output, signal } from '@angular/core';
+import { Component, computed, EventEmitter, inject, Input, Output, Signal, signal } from '@angular/core';
 import { EmpresaPublica } from '../../empresa-public.interface';
 import { EmpresaPublic } from '../../../data-access/empresa-public';
 
@@ -11,7 +11,7 @@ import { EmpresaPublic } from '../../../data-access/empresa-public';
 export class Calendar {
   @Input({ required: true }) empresa!: EmpresaPublica;
   private servEmpPublic = inject(EmpresaPublic);
-  public daySelected!: string;
+  public daySelected = signal<string | null>(null);
   public diasSemana = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
   hoy = new Date();
@@ -67,7 +67,7 @@ export class Calendar {
 
     if (this.esPasado(dia)) return;
     if (!this.esDiaHabil(dia)) return;
-    this.daySelected = dia.toString()
+    this.daySelected.set(dia.toString());
     const fechaISO = dia.toISOString().split('T')[0];
     this.servEmpPublic.setFecha(fechaISO);
   }

@@ -25,7 +25,7 @@
           class="day"
           [class.disabled]="esPasado(dia) || !esDiaHabil(dia)"
           [disabled]="esPasado(dia) || !esDiaHabil(dia)"
-          [class.selected]="daySelected === dia.toString()"
+          [class.selected]="daySelected() === dia.toString()"
           (click)="seleccionarFecha(dia)"
         >
           {{ dia.getDate() }}

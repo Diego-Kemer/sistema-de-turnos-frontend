@@ -1,26 +1,106 @@
 @if (empresa(); as emp) {
-  <div class="body">
+  <div class="booking-page">
+    <!-- HERO -->
+    <header class="booking-hero">
+      <div class="hero-top-line" [style.background]="emp.colorTema"></div>
 
-    <div class="header" [style.borderColor]="emp.colorTema">
-      <h1>{{ emp.name }}</h1>
-      <p>Reservar turno</p>
-      <p>{{ emp.descripcion }}</p>
-    </div>
-  
-    <div class="layout">
-      <app-calendar [empresa]="emp" >
-      </app-calendar>
-  
-      <app-horario
-        [empresaId]="emp._id"
-      >
-      </app-horario>
-  
-      <app-cliente-form
-        [empresaId]="emp._id"
-        (turnoCreado)="irAConfirmacion($event)"
-      >
-      </app-cliente-form>
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="hero-avatar" [style.background]="emp.colorTema">
+            {{ emp.name.charAt(0) }}
+          </div>
+
+          <div class="hero-text">
+            <h1>{{ emp.name }}</h1>
+            <p>
+              {{ emp.descripcion || fallbackDescription }}
+            </p>
+          </div>
+        </div>
+
+        <small>powered by <strong>TurnosMK</strong></small>
+      </div>
+    </header>
+
+    <!-- STEPS -->
+    <section class="steps">
+      <div class="step active">1. Elegí día</div>
+
+      <div class="step" [class.active]="fechaSeleccionada()">2. Horario</div>
+
+      <div class="step" [class.active]="horaSeleccionada()">3. Tus datos</div>
+
+      <div class="step" [class.active]="fechaSeleccionada() && horaSeleccionada()">
+        4. Confirmar
+      </div>
+    </section>
+
+    <!-- CONTENT -->
+    <div class="booking-layout">
+      <!-- LEFT -->
+      <div class="booking-main">
+        <section class="card">
+          <h2>Paso 1 · Elegí un día</h2>
+          <app-calendar [empresa]="emp"></app-calendar>
+        </section>
+
+        <section class="card">
+          <h2>Paso 2 · Horarios disponibles</h2>
+          <app-horario [empresaId]="emp._id"></app-horario>
+        </section>
+
+        <section class="card" #formSection [class.form-active]="horaSeleccionada()">
+          <h2>Paso 3 · Tus datos</h2>
+          <app-cliente-form [empresaId]="emp._id" (turnoCreado)="irAConfirmacion($event)">
+          </app-cliente-form>
+        </section>
+      </div>
+
+      <!-- RIGHT -->
+      <aside class="booking-summary">
+        <div class="summary-card">
+          <h2>Paso 4 · Confirmación</h2>
+
+          <div class="summary-item">
+            <span>Negocio</span>
+            <strong>{{ emp.name }}</strong>
+          </div>
+
+          <div class="summary-item">
+            <span>Día</span>
+            <strong>
+              {{ (fechaSeleccionada() | date: "EEEE d 'de' MMMM") || 'Elegí un día' }}
+            </strong>
+          </div>
+
+          <div class="summary-item">
+            <span>Horario</span>
+            <strong>
+              {{ horaSeleccionada() || 'Elegí un horario' }}
+            </strong>
+          </div>
+
+          <div class="summary-item">
+            <span>Estado</span>
+            <strong>
+              @if (fechaSeleccionada() && horaSeleccionada()) {
+                Listo para completar tus datos
+              } @else {
+                Seguí los pasos para reservar
+              }
+            </strong>
+          </div>
+
+          <button
+            class="summary-button"
+            [style.background]="emp.colorTema"
+            [disabled]="!fechaSeleccionada() || !horaSeleccionada()"
+            (click)="confirmarTurno()"
+          >
+            Confirmar turno
+          </button>
+        </div>
+      </aside>
     </div>
   </div>
 }

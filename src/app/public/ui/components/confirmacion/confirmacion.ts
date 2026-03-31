@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { EmpresaPublic } from '../../../data-access/empresa-public';
 
 @Component({
   selector: 'app-confirmacion',
@@ -10,6 +11,7 @@ import { environment } from '../../../../../environments/environment';
   styleUrl: './confirmacion.css',
 })
 export class Confirmacion {
+  private servEmp = inject(EmpresaPublic);
   private route = inject(ActivatedRoute);
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -58,6 +60,7 @@ export class Confirmacion {
   }
 
   volverInicio() {
+    this.servEmp.setFecha('')
     const slug = this.route.snapshot.paramMap.get('slug');
     this.router.navigate(['/res/', slug]);
   }

@@ -12,7 +12,7 @@
     </div>
 
     <form [formGroup]="form">
-      <input type="text" placeholder="Nombre" formControlName="nombre" />
+      <input autofocus #inputNombre type="text" placeholder="Nombre" formControlName="nombre" />
       <i class="error">
         @if (form.get('nombre')?.touched && form.get('nombre')?.invalid) {
               @if (form.get('nombre')?.errors?.['required']) {
@@ -49,19 +49,11 @@
         }
       </i>
 
-      <textarea placeholder="Notas (opcional)" formControlName="notas"> </textarea>
+      <textarea placeholder="Comentarios (opcional)" formControlName="notas"> </textarea>
     </form>
 
     @if (error()) {
       <p class="error">{{ error() }}</p>
     }
-
-    <button [disabled]="form.invalid || loading()" (click)="crearTurno()">
-      @if (loading()) {
-        Confirmando...
-      } @else {
-        Confirmar turno
-      }
-    </button>
   </div>
 }
