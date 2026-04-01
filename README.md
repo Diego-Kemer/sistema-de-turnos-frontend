@@ -1,59 +1,74 @@
-# TurnosMK
+# TurnosMK – Sistema de turnos online
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+Aplicación web para la gestión y reserva de turnos online orientada a pequeños negocios y profesionales independientes.
 
-## Development server
+Permite que cada negocio comparta su propio link público para que sus clientes puedan reservar turnos de forma rápida, intuitiva y desde cualquier dispositivo.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🚀 Demo
+🔗 Frontend: https://turnosmk.vercel.app/  
+🔗 Backend: https://sistema-de-turnos-backend-f0af.onrender.com 
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## ✨ Funcionalidades principales
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🔐 Autenticación y gestión
+- Registro y login con JWT
+- Persistencia de sesión
+- Guards para rutas privadas
+- Interceptors para token
 
-```bash
-ng generate component component-name
-```
+### 📅 Reserva pública de turnos
+- Horarios en tiempo real
+- Bloqueo de horarios ocupados
+- Detección de horarios vencidos
+- Confirmación de turno
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 🎨 Características del diseño
+- Sticky resumen de confirmación
+- Scroll automático entre pasos
+- Autofocus contextual
+- Responsive design
+- Color dinámico por empresa
 
-```bash
-ng generate --help
-```
+### 👨‍💼 Panel de usuario
+- Gestión de clientes
+- Configuración de horarios
+- Visualización de turnos
+- Link público personalizado
 
-## Building
+---
 
-To build the project run:
+## 🛠️ Stack
+- Angular v21
+- Signals / Computed / Effect
+- Reactive Forms
+- TypeScript
+- Node.js + Express
+- MongoDB Atlas
+- JWT
+- Vercel
+- Render
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 📸 Capturas
 
-## Running unit tests
+### 🔐 Login
+<img width="100%" alt="Login" src="./capturas/login.jpeg" />
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### 📝 Registro de empresa
+<img width="100%" alt="Register" src="./capturas/register.jpeg" />
 
-```bash
-ng test
-```
+### 📅 Reserva de turno 
+<img width="100%" alt="Reserva" src="./capturas/form-client.jpeg" />
 
-## Running end-to-end tests
+### 👨‍💼 Panel usuario
+<img width="100%" alt="Panel" src="./capturas/panel-user.jpeg" />
+---
 
-For end-to-end (e2e) testing, run:
+## 🎯 Objetivo del proyecto
+Este proyecto fue desarrollado como una solución SaaS orientada a negocios que necesitan automatizar la reserva de turnos y mejorar la experiencia del cliente.
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
