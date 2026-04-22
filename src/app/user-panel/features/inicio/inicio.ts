@@ -9,15 +9,14 @@ import { EmpresaStore } from '../../data-access/empresa.store';
 import { UserStorage } from '../../data-access/user.storage';
 import { User } from '../../ui/interfaces/user';
 import { TurnosStorage } from '../../data-access/turnos.storage';
-import { RouterLinkWithHref } from '@angular/router';
+import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
   imports: [
     InicioDataTurnos,
     InicioDataSchedule,
-    AddTurno,
-    RouterLinkWithHref
+    AddTurno
 ],
   templateUrl: './inicio.html',
   styleUrl: './inicio.css',
@@ -25,6 +24,8 @@ import { RouterLinkWithHref } from '@angular/router';
 export class Inicio implements OnInit {
   public _turnos = inject(TurnosStorage) 
   public dataSchedule: Array<TodaySchedule> = [];
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   public empresa!: any;
   private _empresaS = inject(EmpresaStore);
   private _userS = inject(UserStorage);         
@@ -170,5 +171,11 @@ export class Inicio implements OnInit {
 
   hasEvents(day: number): boolean {
     return this.daysWithEvents.includes(day);
+  }
+
+  irATurnos() {
+    this.router.navigate(['../turnos'], {
+      relativeTo: this.route
+    });
   }
 }

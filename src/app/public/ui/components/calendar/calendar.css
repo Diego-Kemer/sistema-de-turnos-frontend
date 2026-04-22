@@ -73,3 +73,14 @@
   transform: scale(1.04);
   box-shadow: 0 8px 18px rgba(0,0,0,.08);
 }
+
+@media (max-width: 768px){
+  .calendar {
+    width: 100%;
+    padding: 12px;
+  }
+  .day, .empty{
+    height: 32px;
+    padding: 8px;
+  }
+}

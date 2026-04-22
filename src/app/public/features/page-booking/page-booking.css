@@ -158,7 +158,10 @@
 section.form-active {
   animation: revealForm .55s ease;
 }
-
+footer{
+  width: 100%;
+  text-align: center;
+}
 @keyframes revealForm {
   0% {
     opacity: .5;
@@ -172,4 +175,75 @@ section.form-active {
 .card.form-active {
   border-color: #cbd5e1;
   box-shadow: 0 8px 30px rgba(0,0,0,.06);
+}
+
+@media (max-width: 1024px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-summary {
+    position: static;
+    order: 4;
+  }
+
+  .summary-card {
+    margin-top: 8px;
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .booking-page {
+    padding: 14px;
+  }
+
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px;
+  }
+
+  .hero-left {
+    align-items: flex-start;
+  }
+
+  .hero-avatar {
+    display: none;
+  }
+
+  .hero-text h1 {
+    font-size: 1.55rem;
+    line-height: 1.2;
+  }
+
+  .hero-text p {
+    font-size: 0.95rem;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .step {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+
+  .card,
+  .summary-card {
+    padding: 18px;
+    border-radius: 22px;
+  }
+   .summary-button {
+    position: sticky;
+    bottom: 10px;
+    z-index: 20;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  }
 }

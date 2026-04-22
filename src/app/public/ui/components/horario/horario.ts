@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, computed, effect, inject, Input, signal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { EmpresaPublic } from '../../../data-access/empresa-public';
 import { DatePipe } from '@angular/common';
@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 })
 export class Horario{
   @Input() empresaId!: string;
+  @Output() horariosListos = new EventEmitter<void>();
 
 
   private servEmpPublic = inject(EmpresaPublic)
@@ -45,7 +46,8 @@ export class Horario{
       next: (res) => {
         this.horarios.set(res);
         this.loading.set(false);
-        console.log(res);
+
+        this.horariosListos.emit();
       },
       error: () => {
         this.horarios.set([]);

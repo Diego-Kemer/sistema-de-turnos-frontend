@@ -17,6 +17,7 @@ import { DatePipe } from '@angular/common';
 export class PageBooking implements OnInit{
   @ViewChild(ClienteForm) clienteForm!: ClienteForm;
   @ViewChild('formSection') formSection!: ElementRef;
+  @ViewChild('horariosSection') horariosSection!: ElementRef;
   private empServ = inject(EmpresaPublic);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
@@ -33,17 +34,23 @@ export class PageBooking implements OnInit{
 
       if (!hora || !this.formSection) return;
 
-      setTimeout(() => {
-        const top =
-          this.formSection.nativeElement.getBoundingClientRect().top + window.scrollY - 20;
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const top =
+            this.formSection.nativeElement.getBoundingClientRect().top +
+            window.scrollY -
+            20;
 
-        window.scrollTo({
-          top,
-          behavior: 'smooth'
-        });
-        this.clienteForm.focusFirstInput();
-      }, 250);
+          window.scrollTo({
+            top,
+            behavior: 'smooth'
+          });
 
+          setTimeout(() => {
+            this.clienteForm?.focusFirstInput();
+          }, 450);
+        }, 250);
+      });
     });
   }
   
@@ -52,6 +59,18 @@ export class PageBooking implements OnInit{
       this.slug = this.route.snapshot.paramMap.get('slug')!;
       this.empServ.cargarEmpresa(this.slug)
     }
+
+    scrollAHorarios(){
+
+        if (!this.horariosSection) return;
+
+        const top = this.horariosSection.nativeElement.getBoundingClientRect().top +  window.scrollY - 20;
+
+        window.scrollTo({
+          top,
+          behavior: 'smooth'
+        });
+  }
 
   irAConfirmacion(turno: any) {
     if (!turno?._id) return;

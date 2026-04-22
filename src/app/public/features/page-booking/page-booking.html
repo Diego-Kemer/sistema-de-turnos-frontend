@@ -18,7 +18,7 @@
           </div>
         </div>
 
-        <small>powered by <strong>TurnosMK</strong></small>
+        
       </div>
     </header>
 
@@ -44,9 +44,9 @@
           <app-calendar [empresa]="emp"></app-calendar>
         </section>
 
-        <section class="card">
+        <section class="card" #horariosSection>
           <h2>Paso 2 · Horarios disponibles</h2>
-          <app-horario [empresaId]="emp._id"></app-horario>
+          <app-horario (horariosListos)="scrollAHorarios()" [empresaId]="emp._id"></app-horario>
         </section>
 
         <section class="card" #formSection [class.form-active]="horaSeleccionada()">
@@ -102,5 +102,8 @@
         </div>
       </aside>
     </div>
+    <footer>
+      <small>Powered by <strong>TurnosMK</strong></small>
+    </footer>
   </div>
 }
