@@ -149,7 +149,7 @@ footer{
 
 .dropdown {
   position: absolute;
-  right: 0;
+  right: -10px;
   top: 35px;
   width: 340px;
   max-height: 380px;
