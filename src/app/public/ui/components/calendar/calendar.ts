@@ -72,7 +72,7 @@ export class Calendar {
       if (horaActual > hasta -1) {
         esHabil = false;
       }
-      console.log(hasta)
+
     }
     return esHabil;
 
