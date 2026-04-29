@@ -1,8 +1,17 @@
-<div class="turno-item">
+<div class="turno-item notIsCel">
     <span>{{turno.nombre}}</span>
     <span>{{turno.fecha | date}}</span>
     <!-- <span>{{turno.date | date: "MMM dd, yyyy 'at' hh:mm a"}}</span> -->
     <span>{{turno.hora}}</span>
     <span>{{turno.telefono}}</span>
     <span>{{turno.estado}}</span>
+</div>
+
+<div class="turno-item isCel">
+    <span> <b>Nombre:</b> {{turno.nombre}}</span>
+    <span><b>Fecha: </b>{{turno.fecha | date}}</span>
+    <!-- <span>{{turno.date | date: "MMM dd, yyyy 'at' hh:mm a"}}</span> -->
+    <span><b>Hora: </b>{{turno.hora}}</span>
+    <span><b>Telefono: </b>{{turno.telefono}}</span>
+    <span><b>Estado: </b>{{turno.estado}}</span>
 </div>

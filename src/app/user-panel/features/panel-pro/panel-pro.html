@@ -9,7 +9,7 @@
         <span class="material-symbols-outlined"> home </span>
         <span>Inicio</span>
       </a>
-      <a routerLink="turnos"  routerLinkActive="activo">
+      <a routerLink="turnos" routerLinkActive="activo">
         <span class="material-symbols-outlined"> assignment_turned_in </span>
         <span>Turnos</span>
       </a>
@@ -17,15 +17,15 @@
         <span class="material-symbols-outlined">service_toolbox</span>
         <span>Servicios</span>
       </a> -->
-      <a routerLink="horarios"  routerLinkActive="activo">
+      <a routerLink="horarios" routerLinkActive="activo">
         <span class="material-symbols-outlined"> timer </span>
         <span>Horarios</span>
       </a>
-      <a routerLink="mi-link"  routerLinkActive="activo">
+      <a routerLink="mi-link" routerLinkActive="activo">
         <span class="material-symbols-outlined"> link_2 </span>
         <span>Mi link</span>
       </a>
-      <a routerLink="clientes"  routerLinkActive="activo">
+      <a routerLink="clientes" routerLinkActive="activo">
         <span class="material-symbols-outlined"> person </span>
         <span>Clientes</span>
       </a>
@@ -40,16 +40,57 @@
       <button (click)="toggleMenu()" class="menu-toggle">
         @if (menuOpen) {
           <span class="material-symbols-outlined"> close </span>
-        }@else {
+        } @else {
           <span class="material-symbols-outlined"> menu </span>
         }
-      
       </button>
       <div class="header-title">
         <h2>{{ _empresa()?.name }}</h2>
       </div>
       <div class="header-data">
-        <span class="material-symbols-outlined">notifications</span>
+        <div class="noti-container">
+          <span class="material-symbols-outlined bell" [class.animar]="animar" (click)="toggle()">
+            notifications
+          </span>
+
+          @if (noLeidas > 0) {
+            <span class="badge">{{ noLeidas }}</span>
+          }
+
+          @if (mostrar) {
+            <div class="dropdown">
+              <div class="header">
+                <span>Notificaciones</span>
+              </div>
+
+              @if (notificaciones.length === 0) {
+                <div class="empty">No hay notificaciones</div>
+              }
+
+              @for (n of notificaciones; track n._id) {
+                <div class="item" [class.leida]="n.leida" (click)="marcarLeida(n)">
+                  @if (!n.leida) {
+                    <div class="dot"></div>
+                  }
+
+                  <div class="content">
+                    <div class="top">
+                      <strong>{{ n.titulo }}</strong>
+                      <span class="hora">
+                        {{ n.fecha | date: 'shortTime' }}
+                      </span>
+                    </div>
+
+                    <p class="mensaje">
+                      {{ n.mensaje }}
+                    </p>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
         <img [src]="user()?.avatar + '.jpg'" alt="" />
       </div>
     </header>
@@ -57,6 +98,15 @@
       <div class="main">
         <router-outlet />
       </div>
+      @if (mostrarToast) {
+        <div class="toast">
+          <span class="mensaje">
+            {{ toastMensaje }}
+          </span>
+
+          <button class="close" (click)="cerrarToast()">✕</button>
+        </div>
+      }
     </main>
     <footer>
       <p>© 2024 Turnos MK. Todos los derechos reservados.</p>

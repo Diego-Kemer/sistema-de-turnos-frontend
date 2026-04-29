@@ -15,10 +15,10 @@
     </div>
     <div class="data">
       <div class="data-agenda">
-        <span>Tu agenda hoy</span>
+        <span>Próximos turnos</span>
         <div class="agenda-info">
-          @if (_turnos.turnosHoy().length > 0) {
-            @for (turno of _turnos.turnosHoy(); track turno._id) {
+          @if (proximosCinco.length > 0) {
+            @for (turno of proximosCinco; track turno._id) {
               <app-inicio-data-schedule [turno]="turno"></app-inicio-data-schedule>
             }
           }
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="data-calendario">
-        <span>Calendario</span>
+        
         <!-- -------------------------------------- -->
         <div class="calendar">
           <!-- Header -->

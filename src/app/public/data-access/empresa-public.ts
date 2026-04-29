@@ -18,6 +18,7 @@ export class EmpresaPublic {
   private http = inject(HttpClient);
   private primaryColor = signal('#0f27ff');
   private document = inject(DOCUMENT);
+  horariosPorFecha = signal<Record<string, string[]>>({});
 
 
   constructor() {

@@ -14,3 +14,10 @@
     border-bottom: solid 2px var(--details);
     padding-bottom: 10px;
 }
+
+@media (max-width: 768px) {
+    .turnos-list .list-header{
+        display: none;
+    }
+}
+

@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, Signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal, Signal } from '@angular/core';
 import { InicioDataTurnos } from '../../ui/components/inicio-data-turnos/inicio-data-turnos';
 import { TurnosData } from '../../data-access/turnos-data';
 import { DataTurnos } from '../../ui/interfaces/data-turnos';
@@ -10,6 +10,7 @@ import { UserStorage } from '../../data-access/user.storage';
 import { User } from '../../ui/interfaces/user';
 import { TurnosStorage } from '../../data-access/turnos.storage';
 import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
+import { Turns } from '../../../shared/interfaces/turns';
 
 @Component({
   selector: 'app-inicio',
@@ -30,10 +31,34 @@ export class Inicio implements OnInit {
   private _empresaS = inject(EmpresaStore);
   private _userS = inject(UserStorage);         
   public user: Signal<User | null> = this._userS.user;
+  public proximosCinco: any = [];
   private parseFechaHora(turno: any): Date {
     return new Date(`${turno.fecha}T${turno.hora}`);
   }
 
+  daysWithEvents = computed(() => {
+    const turnos = this._turnos.turnos() ?? [];
+
+    const dias = new Set<number>();
+    const d = this.currentDate()
+
+    const mesActual = d.getMonth();
+    const anioActual = d.getFullYear();
+
+    turnos.forEach(t => {
+      const fecha = new Date(`${t.fecha}T${t.hora}`);
+
+      const mismoMes =
+        fecha.getMonth() === mesActual &&
+        fecha.getFullYear() === anioActual;
+
+      if (mismoMes) {
+        dias.add(fecha.getDate());
+      }
+    });
+
+    return dias; // 👈 Set
+  });
   constructor() {
     effect(() => {
       const turnos = this._turnos.turnos() ?? [];
@@ -48,6 +73,14 @@ export class Inicio implements OnInit {
         const diff = (fecha.getTime() - ahora.getTime()) / (1000 * 60 * 60 * 24);
         return diff >= 0 && diff <= 7;
       });
+
+
+      this.proximosCinco = (this._turnos.turnos() ?? [])
+        .filter(t => this.parseFechaHora(t) > ahora)
+        .sort((a, b) =>
+          this.parseFechaHora(a).getTime() - this.parseFechaHora(b).getTime()
+        )
+        .slice(0, 5);
 
       this._turnos.setTurnosHoy(turnosHoy);
       this._turnos.setTurnosProximos(proximos);
@@ -106,71 +139,59 @@ export class Inicio implements OnInit {
   });
 
 
-   currentDate = new Date();
+   currentDate = signal(new Date());
   selectedDate = new Date();
 
-  daysOfWeek = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+  daysOfWeek = ['LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SAB', 'DOM'];
 
-  // Simulación: días con turnos
-  daysWithEvents = [2, 5, 8, 12, 15, 21];
+  
 
   get monthYear(): string {
-    return this.currentDate.toLocaleDateString('es-AR', {
+    const d = this.currentDate();
+    return d.toLocaleDateString('es-AR', {
       month: 'long',
       year: 'numeric'
     });
   }
 
   get daysInMonth(): number[] {
-    const year = this.currentDate.getFullYear();
-    const month = this.currentDate.getMonth();
-    const days = new Date(year, month + 1, 0).getDate();
+    const d = this.currentDate()
+    const days = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
     return Array.from({ length: days }, (_, i) => i + 1);
   }
 
   get firstDayOffset(): number {
-    const firstDay = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth(),
-      1
-    ).getDay();
+    const d = this.currentDate()
+    const firstDay = new Date(d.getFullYear(), d.getMonth(), 1).getDay();
     return (firstDay + 6) % 7; // lunes primero
   }
 
   prevMonth() {
-    this.currentDate = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth() - 1,
-      1
-    );
+    const d = this.currentDate()
+    this.currentDate.set(new Date(d.getFullYear(), d.getMonth() - 1, 1));
   }
 
   nextMonth() {
-    this.currentDate = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth() + 1,
-      1
-    );
+    const d = this.currentDate()
+    this.currentDate.set(new Date(d.getFullYear(), d.getMonth() + 1, 1)) 
   }
 
   selectDay(day: number) {
-    this.selectedDate = new Date(
-      this.currentDate.getFullYear(),
-      this.currentDate.getMonth(),
-      day
-    );
+    const d = this.currentDate()
+    this.selectedDate = new Date(d.getFullYear(), d.getMonth(), day);
   }
 
   isSelected(day: number): boolean {
+    const d = this.currentDate()
     return (
       this.selectedDate.getDate() === day &&
-      this.selectedDate.getMonth() === this.currentDate.getMonth() &&
-      this.selectedDate.getFullYear() === this.currentDate.getFullYear()
+      this.selectedDate.getMonth() === d.getMonth() &&
+      this.selectedDate.getFullYear() === d.getFullYear()
     );
   }
 
   hasEvents(day: number): boolean {
-    return this.daysWithEvents.includes(day);
+    return this.daysWithEvents().has(day);
   }
 
   irATurnos() {
@@ -178,4 +199,5 @@ export class Inicio implements OnInit {
       relativeTo: this.route
     });
   }
+  
 }

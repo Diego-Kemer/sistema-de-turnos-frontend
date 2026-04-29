@@ -52,13 +52,30 @@ export class Calendar {
     return dia < hoy;
   }
 
+  observar: any = null;
   esDiaHabil(fecha: Date | null): boolean {
     if(!fecha) return false;
 
     const dias = this.empresa?.diasHabiles ?? [];
     const dia = fecha.getDay();
 
-    return dias.find(d => d.diaSemana === dia)?.habilitado ?? false;
+    let esHabil = dias.find(d => d.diaSemana === dia)?.habilitado ?? false;
+
+    const hoyDia = this.hoy.getDay();
+    const horaActual = this.hoy.getHours();
+
+    const diaHoyConfig = dias.find(d => d.diaSemana === hoyDia);
+
+    if (diaHoyConfig && diaHoyConfig.rangos.length) {
+      const hasta = Number(diaHoyConfig.rangos[diaHoyConfig.rangos.length - 1].hasta.substring(0, 2));
+
+      if (horaActual > hasta -1) {
+        esHabil = false;
+      }
+      console.log(hasta)
+    }
+    return esHabil;
+
   }
 
 

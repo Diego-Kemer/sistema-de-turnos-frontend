@@ -23,8 +23,8 @@
       @if (dia) {
         <button
           class="day"
-          [class.disabled]="esPasado(dia) || !esDiaHabil(dia)"
-          [disabled]="esPasado(dia) || !esDiaHabil(dia)"
+          [class.disabled]="esPasado(dia) || !esDiaHabil(dia) "
+          [disabled]="esPasado(dia) || !esDiaHabil(dia)  "
           [class.selected]="daySelected() === dia.toString()"
           (click)="seleccionarFecha(dia)"
         >

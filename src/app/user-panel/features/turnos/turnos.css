@@ -28,3 +28,11 @@ header .turnos-btn.activo{
     background: var(--btn);
     color: #fff;
 }
+@media (max-width: 768px){
+    .man{
+        display: none;
+    }
+    .header-a{
+        display: none;
+    }
+}
