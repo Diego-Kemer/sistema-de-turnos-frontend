@@ -17,7 +17,12 @@ export class NotificacionesService {
 
     if (permiso !== 'granted') return;
 
-    const registro = await navigator.serviceWorker.ready;
+    const registro = await navigator.serviceWorker.getRegistration('/push-sw.js');
+
+    if (!registro) {
+      console.error('SW de push no encontrado');
+      return;
+    }
 
     try{
       const subscription = await registro.pushManager.subscribe({
@@ -26,6 +31,7 @@ export class NotificacionesService {
       });
       
       console.log('suscripcion', subscription)
+      
       this.http.post(`${this.urlApi}/api/push/suscribe/${empresaId}`, {
         subscription
       }).subscribe({
